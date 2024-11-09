@@ -12,4 +12,4 @@ def get_posts():
 
 @app.post("/createpost")
 def create_posts():
-    return {"message": "The post has been created"}
+    return {"message": "The post has been created Successfully"}
