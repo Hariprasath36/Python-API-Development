@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.params import Body
 
 app = FastAPI()
 
@@ -11,5 +12,6 @@ def get_posts():
     return {"message": "This is your posts"}
 
 @app.post("/createpost")
-def create_posts():
+def create_posts(payLoad: dict = Body(...)):
+    print(payLoad)
     return {"message": "The post has been created Successfully"}
