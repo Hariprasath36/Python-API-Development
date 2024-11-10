@@ -7,7 +7,9 @@ app = FastAPI()
 
 class Post(BaseModel):
     title: str
-    content: str
+    content: str  
+    published: bool =True
+    rating: Optional[int] = None
 
 @app.get("/")
 def root():
@@ -19,5 +21,5 @@ def get_posts():
 
 @app.post("/createpost")
 def create_posts(new_post: Post):
-    print(new_post)
+    print(new_post.rating)
     return {"data": "new_post"}
