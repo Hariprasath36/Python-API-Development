@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.params import Body
 from pydantic import BaseModel
-
+from typing import Optional
 
 app = FastAPI()
 
@@ -20,6 +20,7 @@ def get_posts():
     return {"message": "This is your posts"}
 
 @app.post("/createpost")
-def create_posts(new_post: Post):
-    print(new_post.rating)
+def create_posts(post: Post):
+    print(post)
+    print(post.dict())
     return {"data": "new_post"}
