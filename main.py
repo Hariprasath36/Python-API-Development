@@ -12,6 +12,8 @@ class Post(BaseModel):
     published: bool =True
     rating: Optional[int] = None
 
+    
+
 my_posts = [{"title": "title of post 1", "content": "content of post 1", "id": 1},{"title": "favorite food", "content": "I like pizza", "id": 2}]
 
 def find_post(id):
@@ -57,3 +59,8 @@ def delete_post(id: int):
     
     my_posts.pop(index)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+@app.put("/posts/{id}")
+def update_post(id: int, post: Post):
+
+    return {'message':"updated Post"}
