@@ -86,7 +86,7 @@ def update_post(id: int, post: Post):
     updated_post = cursor.fetchone()
     conn.commit() 
 
-    if update_post== None:
+    if updated_post== None:
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND
         , detail = f"post with id : {id} was not found")
     
