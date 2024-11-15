@@ -1,2 +1,2 @@
 # Python-API-Development
-# Run code : uvicorn main:app --reload
+# Run code : uvicorn app.main:app --reload
