@@ -15,7 +15,7 @@ class Post(BaseModel):
     published: bool =True
 while True:
     try:
-        conn = psycopg2. connect(host='localhost', database='fastapi', user='postgres', password='root@1234', cursor_factory=RealDictCursor)
+        conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres', password='root@1234', cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         print("Database connection was successful")
         break
@@ -44,14 +44,14 @@ def root():
 @app.get("/posts")
 def get_posts():
     cursor.execute("""SELECT * FROM posts""")
-    posts = cursor.fetchall()
+    my_posts = cursor.fetchall()
     return {"data": my_posts}
 
 @app.post("/createpost",status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
-   cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) """,(post.title, post.content, post.published)) 
-
-   return {"data": "created Successfully"}
+   cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING * """,(post.title, post.content, post.published)) 
+   new_post = cursor.fetchone
+   return {"data": new_post}
 
 @app.get("/posts/{id}")
 def get_post(id: int, response: Response):
