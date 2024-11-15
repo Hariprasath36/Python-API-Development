@@ -5,6 +5,8 @@ from typing import Optional
 from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import time
+
 app = FastAPI()
 
 class Post(BaseModel):
@@ -20,7 +22,7 @@ while True:
     except Exception as error:
         print("Connection to database failed")
         print("Error: ", error)
-
+        time.sleep(2)
     
 
 my_posts = [{"title": "title of post 1", "content": "content of post 1", "id": 1},{"title": "favorite food", "content": "I like pizza", "id": 2}]
@@ -41,14 +43,15 @@ def root():
 
 @app.get("/posts")
 def get_posts():
+    cursor.execute("""SELECT * FROM posts""")
+    posts = cursor.fetchall()
     return {"data": my_posts}
 
 @app.post("/createpost",status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
-   post_dict = post.dict()
-   post_dict["id"] = randrange(0, 1000000)
-   my_posts.append(post.dict())
-   return {"data": post_dict}
+   cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) """,(post.title, post.content, post.published)) 
+
+   return {"data": "created Successfully"}
 
 @app.get("/posts/{id}")
 def get_post(id: int, response: Response):
