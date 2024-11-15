@@ -11,14 +11,15 @@ class Post(BaseModel):
     title: str
     content: str  
     published: bool =True
-
-try:
-    conn = psycopg2. connect(host='localhost', database='fastapi', user='postgres', password='root@1234', cursor_factory=RealDictCursor)
-    cursor = conn.cursor()
-    print("Database connection was successful")
-except Exception as error:
-    print("Connection to database failed")
-    print("Error: ", error)
+while True:
+    try:
+        conn = psycopg2. connect(host='localhost', database='fastapi', user='postgres', password='root@1234', cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        print("Database connection was successful")
+        break
+    except Exception as error:
+        print("Connection to database failed")
+        print("Error: ", error)
 
     
 
