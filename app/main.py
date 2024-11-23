@@ -22,7 +22,7 @@ class Post(BaseModel):
     published: bool =True
 while True:
     try:
-        conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres', password='root@1234', cursor_factory=RealDictCursor)
+        conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres', password='password123', cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         print("Database connection was successful")
         break
