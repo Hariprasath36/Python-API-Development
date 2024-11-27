@@ -7,7 +7,9 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 from sqlalchemy.orm import Session
-from . import models, schemas
+from . import models
+from . import schemas
+
 from .database import engine,get_db
 
 models.Base.metadata.create_all(bind=engine)
@@ -55,7 +57,7 @@ def get_posts(db: Session = Depends(get_db)):
     posts=db.query(models.Post).all()
     return posts
 
-@app.post("/createpost",status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
+@app.post("/createpost",status_code=status.HTTP_201_CREATED)
 def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
 #    cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING * """,(post.title, post.content, post.published)) 
 #    new_post = cursor.fetchone()
