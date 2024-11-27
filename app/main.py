@@ -46,26 +46,23 @@ def find_index_post(id):
 def root():
     return {"message": "Hello World"}
 
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
-    posts=db.query(models.Post).all()
-    return {"data": posts}
+
 
 @app.get("/posts")
 def get_posts(db: Session = Depends(get_db)):
     # cursor.execute("""SELECT * FROM posts""")
     # my_posts = cursor.fetchall()
     posts=db.query(models.Post).all()
-    return my_posts
+    return posts
 
 @app.post("/createpost",status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
-def create_posts(post: schemas.Post, db: Session = Depends(get_db)):
+def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
 #    cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING * """,(post.title, post.content, post.published)) 
 #    new_post = cursor.fetchone()
 
 #    conn.commit()
    new_post = models.Post(**post.dict())
-   new_post =models.Post(title=post.title, content=post.content, published=post.published)
+#    new_post =models.Post(title=post.title, content=post.content, published=post.published)
    db.add(new_post)
    db.commit()
    db.refresh(new_post)
@@ -80,7 +77,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
     if not post:
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND
         , detail = f"post with id : {id} was not found")
-    return  post
+    return post
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int ,db: Session = Depends(get_db)):
@@ -97,7 +94,7 @@ def delete_post(id: int ,db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 @app.put("/posts/{id}")
-def update_post(id: int, updated_post: schemas.Post,db: Session = Depends(get_db)):
+def update_post(id: int, updated_post: schemas.PostCreate,db: Session = Depends(get_db)):
     # cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s RETURNING *""",(post.title,post.content,post.published, str(id)))
 
     # updated_post = cursor.fetchone()
