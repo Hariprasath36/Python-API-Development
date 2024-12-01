@@ -1,6 +1,13 @@
 import pytest
 from app.calculations import add, divide, multiply, subtract,BankAccount,InsufficientFunds
 
+@pytest.fixture
+def zero_bank_account():
+    return BankAccount(0)
+@pytest.fixture
+def bank_account():
+    return BankAccount(50)
+
 @pytest.mark.parametrize("num1,num2,expected",[
     (3,2,5),
     (7,3,10),
@@ -21,6 +28,9 @@ def test_multiply():
 def test_divide():
     print("testing divide function")
     assert divide(20,5)== 4
+
+def test_bank_set_initial_amount(zero_bank_account):
+    assert zero_bank_account.balance == 0
 
 def test_bank_default_amount():
     bank_account = BankAccount(50)
