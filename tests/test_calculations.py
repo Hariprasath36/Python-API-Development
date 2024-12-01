@@ -4,7 +4,7 @@ from app.calculations import add, divide, multiply, subtract
 @pytest.mark.parametrize("num1,num2,expected",[
     (3,2,5),
     (7,3,10),
-    (2,4,6)
+    (2,5,7)
 ])
 def test_add(num1,num2,expected):
     print("testing add function")
