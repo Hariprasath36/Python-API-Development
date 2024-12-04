@@ -11,6 +11,14 @@ from app.config import settings
 #     print(res.json().get('message'))
 #     assert res.json().get('message')=='Hello World'
 #     assert res.status_code==200
+@pytest.fixture
+def test_user(client):
+    user_data = {"email": "hello123@example.com", "password": "password123"}
+    res = client.post("/users/", json=user_data)
+    assert res.status_code == 201
+    new_user = res.json()
+    new_user['password'] = user_data['password']
+    return new_user
 
 def test_create_user(client):
     res=client.post("/users/",json={"email":"hello123@example.com","password":"password123"})   
@@ -26,4 +34,4 @@ def test_login_user(test_user,client):
     assert id==test_user['id']
     assert login_res.token_type=="bearer"
     assert res.status_code==200
- 
+    
